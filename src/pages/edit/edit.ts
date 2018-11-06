@@ -27,7 +27,7 @@ export class EditPage {
     console.log('ionViewDidLoad EditPage');
   }
   updatenote() {
-    this.http.get("http://localhost/note/note.php?update").subscribe(data => {
+    this.http.get("http://localhost/note/note.php").subscribe(data => {
       console.log(data);
       this.notes = data;
     }, err => {

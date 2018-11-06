@@ -16,7 +16,7 @@
         <p>{{n.date}}</p>
         <br/>
         <ion-icon item-right name="create" (click)="updatenote(n)"></ion-icon>
-        <ion-icon item-right name="trash" (click)="deletenote()"></ion-icon>  
+        <ion-icon item-right name="trash" (click)="deletenote(n.id)"></ion-icon>  
     <hr/>
       </ion-card-content>
   </ion-card>

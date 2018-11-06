@@ -27,8 +27,8 @@ export class HomePage {
   add() {
     this.navCtrl.push(AddnotePage);
   }
-  deletenote() {
-    this.http.get("http://localhost/note/note.php?delete=1&id=(param)").subscribe(data => {
+  deletenote(id) {
+    this.http.get("http://localhost/note/note.php?delete=1&id="+id).subscribe(data => {
       console.log(data);
       this.notes = data;
     }, err => {
