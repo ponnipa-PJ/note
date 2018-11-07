@@ -1,38 +1,50 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
-import { Http , RequestOptions } from '@angular/http';
-import { map } from 'rxjs/operators';
-
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { NoteProvider } from '../../providers/note/note';
 @IonicPage()
 @Component({
   selector: 'page-addnote',
   templateUrl: 'addnote.html',
 })
 export class AddnotePage {
-  form: any = [];
+  form :any = {
+    name : '',
+    body : ''
+  };
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http:Http) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public notrpro:NoteProvider,private alertCtrl:AlertController) {
   }
 
   ionViewDidLoad() {
   }
 
   insertnewnote() {
-    this.form.insert = 1;
-    console.log(this.form)
-    //this.http.post("https://smallboy1996.000webhostapp.com/api/note.php", this.form).subscribe(data => {
-      //console.log(data);
-      //this.form = data;
-    //}, err => {
-     // console.log(err);
-    //});
-    this.http.post('http://localhost/note/note.php', this.form)
-      .pipe(         map(res => res.json())       )
-        .subscribe(data => {
-          console.log(data)
-        }, error => {
-          console.log(error)
+    if(this.form.name == '' || this.form.body == ''){
+      let alert = this.alertCtrl.create({
+        title: 'Form request',
+        subTitle: 'Please input name and body',
+        buttons: ['Dismiss']
       });
+      alert.present();
+      return;
+    }
+    console.log(this.form);
+    this.notrpro.insert(this.form).then((data:any) => {
+      console.log(data);
+      if(data.status == 'success') {
+        let alert = this.alertCtrl.create({
+          title: 'Success',
+          subTitle: 'Save new Note',
+          buttons: [{
+            text: 'Okey',
+            handler: () => {
+              this.navCtrl.pop();
+            }
+          }]
+        });
+        alert.present();
+      }
+    });
   }
 }
 

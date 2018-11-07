@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { HttpClient } from '@angular/common/http';
+import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { NoteProvider } from '../../providers/note/note';
 
 /**
  * Generated class for the EditPage page.
@@ -15,24 +15,40 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: 'edit.html',
 })
 export class EditPage {
-  notes: any = [];
-  detail;
+  form:any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public http: HttpClient) {
-    this.detail = this.navParams.data
-    console.log(this.detail);
+  constructor(public navCtrl: NavController, public navParams: NavParams, public notepro:NoteProvider, private alertCtrl:AlertController) {
+    this.form = this.navParams.data
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad EditPage');
   }
   updatenote() {
-    this.http.get("http://localhost/note/note.php").subscribe(data => {
+    if(this.form.name == '' || this.form.body == ''){
+      let alert = this.alertCtrl.create({
+        title: 'Form request',
+        subTitle: 'Please input name and body',
+        buttons: ['Dismiss']
+      });
+      alert.present();
+      return;
+    }
+    this.notepro.update(this.form).then((data:any) => {
       console.log(data);
-      this.notes = data;
-    }, err => {
-      console.log(err);
+      if(data.status == 'success') {
+        let alert = this.alertCtrl.create({
+          title: 'Success',
+          subTitle: 'Update Note Success',
+          buttons: [{
+            text: 'Okey',
+            handler: () => {
+              this.navCtrl.pop();
+            }
+          }]
+        });
+        alert.present();
+      }
     });
   }
 }
-

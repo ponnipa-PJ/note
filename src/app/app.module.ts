@@ -10,6 +10,7 @@ import { EditPage } from '../pages/edit/edit';
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { AddnotePage } from '../pages/addnote/addnote';
+import { NoteProvider } from '../providers/note/note';
 @NgModule({
   declarations: [
     MyApp,
@@ -34,6 +35,7 @@ import { AddnotePage } from '../pages/addnote/addnote';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    NoteProvider,
   ]
 })
 export class AppModule {}

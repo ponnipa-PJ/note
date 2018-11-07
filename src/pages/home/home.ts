@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
-import { HttpClient } from '@angular/common/http';
+import { NavController, AlertController } from 'ionic-angular';
 import { AddnotePage } from '../addnote/addnote';
 import { EditPage } from '../edit/edit';
+import { NoteProvider } from '../../providers/note/note';
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -10,31 +10,50 @@ import { EditPage } from '../edit/edit';
 export class HomePage {
   notes: any = [];
 
-  constructor(public navCtrl: NavController, public http: HttpClient) {
+  constructor(public navCtrl: NavController, public notepro: NoteProvider, private alertCtrl: AlertController) {
     this.getallnote();
   }
   ionViewDidLoad() {
 
   }
   getallnote() {
-    this.http.get("http://localhost/note/note.php?get").subscribe(data => {
+    this.notepro.getAll().then((data: any) => {
       console.log(data);
       this.notes = data;
-    }, err => {
-      console.log(err);
     });
   }
   add() {
     this.navCtrl.push(AddnotePage);
   }
   deletenote(id) {
-    this.http.get("http://localhost/note/note.php?delete=1&id="+id).subscribe(data => {
-      console.log(data);
-      this.notes = data;
-    }, err => {
-      console.log(err);
+    let alert = this.alertCtrl.create({
+      title: 'Warning!',
+      message: 'Are you sure?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            console.log('Buy clicked');
+            this.notepro.delete(id).then((data: any) => {
+              console.log(data);
+              if (data.status == 'success') {
+                this.getallnote();
+              }
+            });
+          }
+        }
+      ]
     });
+    alert.present();
   }
+
   updatenote(n) {
     console.log(n);
     this.navCtrl.push(EditPage, n);
