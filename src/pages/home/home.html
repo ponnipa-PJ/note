@@ -10,16 +10,13 @@
   <button ion-button round (click)="add()" ion-icon>+ Add Note</button>
 
   <ion-card>
-    <ion-card-content *ngFor="let n of notes">
-      <ion-item>
+      <ion-item *ngFor="let n of notes">
         <ion-icon name="create" item-right (click)="updatenote(n)"></ion-icon>
         <ion-icon name="trash" item-right (click)="deletenote(n.id)"></ion-icon>
         <h1>{{n.name}}</h1>
         <h2>{{n.body}}</h2>
         <h3>{{n.date}}</h3>
       </ion-item>
-      <hr/>
-    </ion-card-content>
   </ion-card>
 
 </ion-content>

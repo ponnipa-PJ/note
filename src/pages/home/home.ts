@@ -3,6 +3,7 @@ import { NavController, AlertController } from 'ionic-angular';
 import { AddnotePage } from '../addnote/addnote';
 import { EditPage } from '../edit/edit';
 import { NoteProvider } from '../../providers/note/note';
+
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -40,7 +41,7 @@ export class HomePage {
         {
           text: 'Delete',
           handler: () => {
-            console.log('Buy clicked');
+            console.log('Delete');
             this.notepro.delete(id).then((data: any) => {
               console.log(data);
               if (data.status == 'success') {

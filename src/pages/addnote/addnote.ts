@@ -21,7 +21,7 @@ export class AddnotePage {
   insertnewnote() {
     if(this.form.name == '' || this.form.body == ''){
       let alert = this.alertCtrl.create({
-        title: 'Form request',
+        title: 'warning',
         subTitle: 'Please input name and body',
         buttons: ['Dismiss']
       });

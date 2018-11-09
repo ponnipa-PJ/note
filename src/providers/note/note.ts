@@ -11,8 +11,7 @@ export class NoteProvider {
 
   getAll() {
     return new Promise((resovle, reject) => {
-      this.http.get(this.api_url + '?get=1')
-        .subscribe(data => {
+      this.http.get(this.api_url + '?get=1').subscribe(data => {
           resovle(data);
         }, error => {
           reject(error)
